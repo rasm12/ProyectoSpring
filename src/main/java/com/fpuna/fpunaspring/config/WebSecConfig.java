@@ -15,12 +15,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 public class WebSecConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
-
 
     @Autowired
     public void configureAuth(AuthenticationManagerBuilder auth) throws Exception {
@@ -28,19 +27,35 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
 //                .withUser("user").password("user").roles("USER").and()
 //                .withUser("admin").password("admin").roles("USER", "ADMIN");
 
-        auth
-                .jdbcAuthentication()
-                .dataSource(dataSource);
-        
+        auth.jdbcAuthentication().dataSource(dataSource)
+                .usersByUsernameQuery(
+                        "select username,password, enabled from users where username=?")
+                .authoritiesByUsernameQuery(
+                        "select username, authority from authorities where username=?");
+
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/page").hasRole("ADMIN")
-                .antMatchers("/nuevo").permitAll()
-                .and().formLogin()
-                .and().logout();
+        http.authorizeRequests()
+                .antMatchers("/home").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/factura").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/contable").access("hasRole('ROLE_CONTABLE')")
+                .anyRequest().permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/js/**").permitAll()
+                .antMatchers("/fonts/**").permitAll()
+                .antMatchers("/images/**").permitAll()
+                .and()
+                .formLogin().loginPage("/login")
+                .usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/home")
+                .failureUrl("/login-error")
+                .and()
+                .logout().logoutSuccessUrl("/login?logout")
+                .and()
+                .exceptionHandling().accessDeniedPage("/403")
+                .and()
+                .csrf().disable();
     }
+
 }

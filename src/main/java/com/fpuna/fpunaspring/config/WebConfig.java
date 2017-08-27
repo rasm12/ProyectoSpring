@@ -33,6 +33,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         registry.addResourceHandler("/images/**").addResourceLocations("/images/");
         registry.addResourceHandler("/css/**").addResourceLocations("/css/");
         registry.addResourceHandler("/js/**").addResourceLocations("/js/");
+        registry.addResourceHandler("/fonts/**").addResourceLocations("/fonts/");
     }
 
    
@@ -69,7 +70,9 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("nuevo");
+        registry.addViewController("/").setViewName("login");
+        registry.addViewController("/login").setViewName("login");
     }
+    
 
 }

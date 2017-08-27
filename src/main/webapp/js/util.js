@@ -1,29 +1,32 @@
-
-$().ready(function() {
-	$("#card").flip({
-	  trigger: 'manual'
-	});
+$(document).ready(function () {
+    $(".side-nav .collapse").on("hide.bs.collapse", function () {
+        $(this).prev().find(".fa").eq(1).removeClass("fa-angle-right").addClass("fa-angle-down");
+    });
+    $('.side-nav .collapse').on("show.bs.collapse", function () {
+        $(this).prev().find(".fa").eq(1).removeClass("fa-angle-down").addClass("fa-angle-right");
+    });
 });
 
+$(function () {
+    /* BOOTSNIPP FULLSCREEN FIX */
+    if (window.location == window.parent.location) {
+        $('#back-to-bootsnipp').removeClass('hide');
+        $('.alert').addClass('hide');
+    }
 
-$(".signup_link").click(function() {
+    $('#fullscreen').on('click', function (event) {
+        event.preventDefault();
+        window.parent.location = "http://bootsnipp.com/iframe/Q60Oj";
+    });
 
-	$(".signin_form").css('opacity', '0');
-	$(".signup_form").css('opacity', '100');
-	
-	
-	$("#card").flip(true);
-	
-	return false;
-});
+    $('tbody > tr').on('click', function (event) {
+        event.preventDefault();
+        $('#myModal').modal('show');
+    })
 
-$("#unflip-btn").click(function(){
-  
-	$(".signin_form").css('opacity', '100');
-	$(".signup_form").css('opacity', '0');
-	
-  	$("#card").flip(false);
-	
-	return false;
-	
+    $('.btn-mais-info').on('click', function (event) {
+        $('.open_info').toggleClass("hide");
+    })
+
+
 });
