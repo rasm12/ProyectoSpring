@@ -33,6 +33,11 @@ public class Controlador {
     public String home(Model model) {
         return "home";
     }
+    
+    @RequestMapping("/newcustomer")
+    public String newCustomer(Model model) {
+        return "new_customer";
+    }
     @RequestMapping("/lista")
     public String lista(Model model) {
         return "list";

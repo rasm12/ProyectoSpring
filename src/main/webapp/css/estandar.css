@@ -237,3 +237,18 @@ body {
 .list-producto .result{
     margin-top:20px;
 }
+
+/*VISTA NEW CUSTOMER*/
+.new-customer table {
+    border: none;
+}
+
+.new-customer .table-definition thead th:first-child {
+    pointer-events: none;
+    background: white;
+    border: none;
+}
+
+.new-customer .table td {
+    vertical-align: middle;
+}
