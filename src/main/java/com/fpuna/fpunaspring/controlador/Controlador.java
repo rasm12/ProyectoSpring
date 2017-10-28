@@ -5,19 +5,26 @@
  */
 package com.fpuna.fpunaspring.controlador;
 
+import com.fpuna.fpunaspring.entidades.Customer;
 import com.fpuna.fpunaspring.entidades.Producto;
+import com.fpuna.fpunaspring.services.CustomerService;
 import com.fpuna.fpunaspring.services.ProductoService;
+import java.awt.PageAttributes;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import wrapper.ResponseWrapper;
 
 /**
  *
@@ -29,19 +36,39 @@ public class Controlador {
     @Autowired
     private ProductoService ps;
 
+    @Autowired
+    private CustomerService cs;
+
     @RequestMapping("/home")
     public String home(Model model) {
         return "home";
     }
-    
+
+    @RequestMapping("/notificacion")
+    public String notify(Model model) {
+        return "notificacion";
+    }
+
+    @RequestMapping("/jqgrid")
+    public String jq(Model model) {
+        return "jqgrid";
+    }
+
+    @RequestMapping("/registro")
+    public String registro(Model model) {
+        return "registration_form";
+    }
+
     @RequestMapping("/newcustomer")
     public String newCustomer(Model model) {
         return "new_customer";
     }
+
     @RequestMapping("/lista")
     public String lista(Model model) {
         return "list";
     }
+
     @RequestMapping("/direccion")
     public String direccion(Model model) {
         return "address";
@@ -67,7 +94,7 @@ public class Controlador {
         List<Producto> lista = ps.todos();
 
         model.addAttribute("producto", lista.get(0));
-        
+
         return "add_producto";
     }
 
@@ -96,8 +123,33 @@ public class Controlador {
         model.addAttribute("error", true);
         return "login";
     }
+
     @RequestMapping(value = "/cliente", method = RequestMethod.GET)
     public String loginError() {
         return "customer";
     }
+
+    @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseWrapper addCustomer(@RequestBody Customer customerJson) {
+        ResponseWrapper RWrapper = new ResponseWrapper();
+        try {
+
+            if (!cs.add(customerJson)) {
+                RWrapper.setId(1);
+                RWrapper.setDescripcion("Error");
+                return RWrapper;
+            } else {
+                RWrapper.setId(0);
+                RWrapper.setDescripcion("OK");
+            }
+            
+            int b = 0 / 0;
+            return RWrapper;
+        } catch (Exception e) {
+            cs.delete(customerJson);
+            return new ResponseWrapper(999, "ERROR DE PROCESO");
+        }
+    }
+
 }

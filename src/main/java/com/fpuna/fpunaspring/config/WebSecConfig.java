@@ -40,6 +40,8 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/home").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/factura").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/recibo").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/producto").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/contable").access("hasRole('ROLE_CONTABLE')")
                 .anyRequest().permitAll()
                 .antMatchers("/css/**").permitAll()
@@ -51,11 +53,17 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/home")
                 .failureUrl("/login-error")
                 .and()
-                .logout().logoutSuccessUrl("/login?logout")
+                .logout().logoutSuccessUrl("/login?logout").logoutUrl("/logout")
                 .and()
                 .exceptionHandling().accessDeniedPage("/403")
                 .and()
                 .csrf().disable();
+
+        http
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout")
+                .invalidateHttpSession(true);
     }
 
 }
