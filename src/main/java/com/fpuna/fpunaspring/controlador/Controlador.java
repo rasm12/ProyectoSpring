@@ -43,6 +43,10 @@ public class Controlador {
     public String home(Model model) {
         return "home";
     }
+    @RequestMapping("/tabla")
+    public String tabla(Model model) {
+        return "tabla";
+    }
 
     @RequestMapping("/notificacion")
     public String notify(Model model) {
