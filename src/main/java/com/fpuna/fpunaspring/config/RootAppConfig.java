@@ -6,6 +6,7 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+
 import org.apache.logging.log4j.LogManager;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,10 @@ public class RootAppConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl(environment.getProperty("dataSource.url"));
-        dataSource.setUsername(environment.getProperty("dataSource.username"));
-        dataSource.setPassword(environment.getProperty("dataSource.password"));
+        dataSource.setDriverClassName(environment.getProperty("dataSource.driver"));
+        dataSource.setUrl(environment.getProperty("dataSource.url2"));
+        dataSource.setUsername(environment.getProperty("dataSource.username2"));
+        dataSource.setPassword(environment.getProperty("dataSource.password2"));
         LogManager.getLogger(this.getClass()).info("Datasource: " + dataSource.getUrl());
         return dataSource;
     }
@@ -51,7 +52,7 @@ public class RootAppConfig {
         properties.put("hibernate.format_sql", "true");
         // create-drop, create, update, validate
         properties.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
-        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
+        properties.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
         entityManagerFactoryBean.setJpaProperties(properties);
         
         entityManagerFactoryBean.setPackagesToScan("com.fpuna.fpunaspring");
