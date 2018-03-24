@@ -43,13 +43,13 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
                         + " from users where username=?")
                 .authoritiesByUsernameQuery("select username, role "
                         + "from user_roles where username=?");
-               
+
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/home").access("hasRole('ROLE_ADMIN2')")
+                .antMatchers("/home").access("hasRole('ROLE_ADMIN3')")
                 .antMatchers("/factura").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/recibo").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/producto").access("hasRole('ROLE_ADMIN')")
