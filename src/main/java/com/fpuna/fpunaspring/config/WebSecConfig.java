@@ -49,7 +49,7 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/home").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/home").access("hasRole('ROLE_ADMIN3')")
                 .antMatchers("/factura").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/recibo").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/producto").access("hasRole('ROLE_ADMIN')")
