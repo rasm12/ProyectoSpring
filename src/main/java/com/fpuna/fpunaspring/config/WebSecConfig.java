@@ -22,17 +22,28 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
 
     @Autowired
-    public void configureAuth(AuthenticationManagerBuilder auth) throws Exception {
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.inMemoryAuthentication()
 //                .withUser("user").password("user").roles("USER").and()
 //                .withUser("admin").password("admin").roles("USER", "ADMIN");
+//        
+//        System.out.println("###################################################################");
 
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery(
-                        "select username,password, enabled from users where username=?")
-                .authoritiesByUsernameQuery(
-                        "select username, authority from authorities where username=?");
+                        "select username,password, enabled from users where username=?");
 
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+        auth.jdbcAuthentication().dataSource(dataSource)
+                .usersByUsernameQuery("select username, password, enabled"
+                        + " from users where username=?")
+                .authoritiesByUsernameQuery("select username, role "
+                        + "from user_roles where username=?");
+               
     }
 
     @Override

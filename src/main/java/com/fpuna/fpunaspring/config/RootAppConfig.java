@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +30,9 @@ public class RootAppConfig {
 
     @Autowired
     private Environment environment;
+    
+    
+   
 
     @Bean
     public DataSource dataSource() {
