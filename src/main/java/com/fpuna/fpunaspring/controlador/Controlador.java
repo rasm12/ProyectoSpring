@@ -125,7 +125,7 @@ public class Controlador {
     @RequestMapping(value = "/login-error", method = RequestMethod.GET)
     public String loginError(Model model) {
         model.addAttribute("error", true);
-        return "login";
+        return "login_mt";
     }
 
     @RequestMapping(value = "/cliente", method = RequestMethod.GET)
